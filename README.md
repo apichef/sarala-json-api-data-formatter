@@ -93,6 +93,8 @@ const simpleObject = [
 ## Deserialize
 
 ```javascript
+import { Formatter } from "sarala-json-api-data-formatter";
+
 const formatter = new Formatter();
 
 let data = this.deserialize(data);
@@ -101,6 +103,8 @@ let data = this.deserialize(data);
 ## Serialize
 
 ```javascript
+import { Formatter } from "sarala-json-api-data-formatter";
+
 const formatter = new Formatter();
 
 let data = this.deserialize(data);
