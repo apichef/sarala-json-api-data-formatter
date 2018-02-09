@@ -1,0 +1,35 @@
+{
+  "name": "sarala-json-api-data-formatter",
+  "version": "0.0.1",
+  "description": "Simple and fluent framework agnostic javascript library to transform standard JSON API responses to simple JSON objects and vice versa.",
+  "main": "build/index.js",
+  "scripts": {
+    "build": "babel src -d build"
+  },
+  "babel": {
+    "presets": [
+      "latest"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/milroyfraser/sarala-json-api-data-formatter.git"
+  },
+  "keywords": [
+    "json-api",
+    "data-formatter"
+  ],
+  "author": "Milroy Fraser",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/milroyfraser/sarala-json-api-data-formatter/issues"
+  },
+  "homepage": "https://github.com/milroyfraser/sarala-json-api-data-formatter#readme",
+  "dependencies": {
+    "lodash": "^4.17.5"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-latest": "^6.24.1"
+  }
+}
