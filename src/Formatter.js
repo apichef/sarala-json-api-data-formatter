@@ -143,9 +143,7 @@ export default class Formatter {
         }
 
         _.forOwn(data, (value, key) => {
-            console.log(thiss.includeField(serialized.type, key), serialized.type, key);
             if (thiss.includeField(serialized.type, key)) {
-                console.log(serialized.attributes, value, key);
                 serialized.attributes[key] = value;
             }
         });
