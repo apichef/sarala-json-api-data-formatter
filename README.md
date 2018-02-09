@@ -1,5 +1,5 @@
 # sarala-json-api-data-formatter
-> Simple and fluent framework agnostic javascript library to transform standard JSON API responses to simple JSON objects and vice versa.
+> A fluent, framework-agnostic, JavaScript library, that can be used simply, to transform standard JSON API responses to simple JSON objects and vice versa.
 
 ## Install
 
@@ -11,7 +11,7 @@ $ npm i sarala-json-api-data-formatter --save
 $ yarn add sarala-json-api-data-formatter
 ```
 
-## JSON-API response data
+## JSON-API response data sample
 
 ```javascript
 const data = {
@@ -22,7 +22,7 @@ const data = {
        "attributes": {
          "slug": "sarala-json-api-data-formatter",
          "title": "Sarala json-api data formatter",
-         "subtitle": "Simple and fluent framework agnostic javascript library to transform standard JSON API responses to simple JSON objects and vice versa.",
+         "subtitle": "A fluent, framework-agnostic, JavaScript library, that can be used simply, to transform standard JSON API responses to simple JSON objects and vice versa.",
          "published_at": "2018-01-21"
        },
        "relationships": {
@@ -60,7 +60,7 @@ const data = {
  };
 ```
 
-## Simple object data
+## Simple object data sample
 
 ```javascript
 const simpleObject = [
@@ -69,7 +69,7 @@ const simpleObject = [
     "type": "posts",
     "slug": "sarala-json-api-data-formatter",
     "title": "Sarala json-api data formatter",
-    "subtitle": "Simple and fluent framework agnostic javascript library to transform standard JSON API responses to simple JSON objects and vice versa.",
+    "subtitle": "A fluent, framework-agnostic, JavaScript library, that can be used simply, to transform standard JSON API responses to simple JSON objects and vice versa.",
     "published_at": "2018-01-21",
     "relationships": [
       "tags"
@@ -107,20 +107,20 @@ import { Formatter } from "sarala-json-api-data-formatter";
 
 const formatter = new Formatter();
 
-let data = this.deserialize(data);
+let data = this.serialize(data);
 ```
 
 ## Filter relationships
 
-#### deserialize only root objects and skipp all relationships
+#### Deserialize only root objects and skip all relationships
 
 ```javascript
 let data = this.includeOnly([]).deserialize(data);
 ```
 
-#### deserialize only specific relationships
+#### Deserialize only specific relationships
 
-when post has tags and comments, following will deserialize only root object and comments. tags will be skipped.
+When post has tags and comments, following will deserialize only root object and comments. Tags will be skipped.
 
 ```javascript
 let data = this.includeOnly(['comments']).deserialize(data);
@@ -128,13 +128,13 @@ let data = this.includeOnly(['comments']).deserialize(data);
 
 ## Filter fields
 
-#### deserialize only specified fields
+#### Deserialize only specified fields
 
 ```javascript
 let data = this.filterFields({
     posts: ['title', 'subtitle'],
-    tag: ['name']
+    tags: ['name']
 }).deserialize(data);
 ```
 
-#### In the same way you can use `includeOnly` and  `filterFields` with `serialize` method.
+### The `serialize` method can be used similarly with `includeOnly` and `filterFields`.
