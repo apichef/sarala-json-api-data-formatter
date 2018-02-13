@@ -19,7 +19,7 @@ export default class Formatter {
         return this;
     }
 
-    includeRelation (relation) {
+    shouldIncludeRelation (relation) {
         if (this.includes === null) {
             return true;
         }
@@ -27,7 +27,7 @@ export default class Formatter {
         return _.indexOf(this.includes, relation) > 0;
     }
 
-    includeField (relation, field) {
+    shouldIncludeField (relation, field) {
         if (this.fields === null) {
             return true;
         }
@@ -44,16 +44,13 @@ export default class Formatter {
     }
 
     deserialize (data) {
-        let thiss = this;
         this.data = data;
 
         if (_.isArray(data.data)) {
-            return _.map(data.data, item => {
-                return thiss.deserializeOne(item);;
-            });
+            return this.deserializeCollection(data);
         }
 
-        return thiss.deserializeOne(data.data);
+        return this.deserializeOne(data.data);
     }
 
     deserializeOne (data) {
@@ -61,10 +58,18 @@ export default class Formatter {
         formatted.id = data.id;
         formatted.type = data.type;
 
+        if (data.links) {
+            formatted.links = data.links;
+        }
+
+        if (data.meta) {
+            formatted.meta = data.meta;
+        }
+
         let thiss = this;
 
         _.forOwn(data.attributes, (value, key) => {
-            if (thiss.includeField(data.type, key)) {
+            if (thiss.shouldIncludeField(data.type, key)) {
                 formatted[key] = value;
             }
         });
@@ -73,7 +78,7 @@ export default class Formatter {
             formatted.relationships = [];
 
             for (var key in data.relationships) {
-                if (this.includeRelation(key)) {
+                if (this.shouldIncludeRelation(key)) {
                     formatted.relationships.push(key);
 
                     if (_.isArray(data.relationships[key].data)) {
@@ -86,6 +91,17 @@ export default class Formatter {
         }
 
         return formatted;
+    }
+
+    deserializeCollection (data) {
+        const thiss = this;
+        data.data_collection = true;
+
+        data.data = _.map(data.data, item => {
+            return thiss.deserializeOne(item);
+        });
+
+        return data;
     }
 
     resolveRelation (data) {
@@ -124,7 +140,7 @@ export default class Formatter {
 
         if (data.hasOwnProperty('relationships')) {
             _.forEach(data.relationships, relationship => {
-                if (thiss.includeRelation(relationship)) {
+                if (thiss.shouldIncludeRelation(relationship)) {
                     if (_.isArray(data[relationship])) {
                         serialized.relationships[relationship] = {
                             data: this.serializeCollection(data[relationship])
@@ -143,7 +159,7 @@ export default class Formatter {
         }
 
         _.forOwn(data, (value, key) => {
-            if (thiss.includeField(serialized.type, key)) {
+            if (thiss.shouldIncludeField(serialized.type, key)) {
                 serialized.attributes[key] = value;
             }
         });
@@ -155,7 +171,7 @@ export default class Formatter {
         return serialized;
     }
 
-    serializeCollection (data) {
+     serializeCollection (data) {
         return _.map(data, item => {
             return this.serializeOne(item);
         });

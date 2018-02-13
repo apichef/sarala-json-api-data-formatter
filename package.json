@@ -4,7 +4,10 @@
   "description": "Simple and fluent framework agnostic javascript library to transform standard JSON API responses to simple JSON objects and vice versa.",
   "main": "build/index.js",
   "scripts": {
-    "build": "babel src -d build"
+    "build": "babel src -d build",
+    "t": "jest",
+    "tw": "jest --watch",
+    "tc": "jest --coverage"
   },
   "babel": {
     "presets": [
@@ -30,6 +33,7 @@
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
-    "babel-preset-latest": "^6.24.1"
+    "babel-preset-latest": "^6.24.1",
+    "jest": "^22.2.2"
   }
 }
