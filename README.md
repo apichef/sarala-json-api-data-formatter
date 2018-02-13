@@ -15,79 +15,106 @@ $ yarn add sarala-json-api-data-formatter
 
 ```javascript
 const data = {
-   "data": [
-     {
-       "type": "posts",
-       "id": "1",
-       "attributes": {
-         "slug": "sarala-json-api-data-formatter",
-         "title": "Sarala json-api data formatter",
-         "subtitle": "A fluent, framework-agnostic, JavaScript library, that can be used simply, to transform standard JSON API responses to simple JSON objects and vice versa.",
-         "published_at": "2018-01-21"
-       },
-       "relationships": {
-         "tags": {
-           "data": [
-             {
-               "type": "tags",
-               "id": "1"
-             },
-             {
-               "type": "tags",
-               "id": "2"
-             }
-           ]
-         }
-       }
-     }
-   ],
-   "included": [
-     {
-       "type": "tags",
-       "id": "1",
-       "attributes": {
-         "name": "json-api"
-       }
-     },
-     {
-       "type": "tags",
-       "id": "2",
-       "attributes": {
-         "name": "transform"
-       }
-     }
-   ]
- };
+  "data": {
+    "type": "posts",
+    "id": "1",
+    "attributes": {
+      "slug": "voluptates-laborum-non-voluptatem-ducimus-veniam-et",
+      "title": "Voluptates laborum non voluptatem ducimus veniam et.",
+      "subtitle": "Cumque aut laudantium repudiandae rem repellendus voluptatem. Sunt ipsa eum ea molestias.",
+      "body": "Est quod itaque suscipit quidem dolor dolores velit. Nihil voluptas placeat ex consequatur quasi.\n\nEst nulla cupiditate ad beatae rerum veritatis vel. Quia ut doloribus consequatur porro. Eligendi sit et dignissimos qui voluptatem magnam mollitia labore.\n\nLibero saepe praesentium et sed. Exercitationem error rerum sit inventore provident laborum. Fuga pariatur dolor reiciendis. Quibusdam corrupti commodi ut quo non laboriosam quia. Nihil sit iste sit optio voluptas repellendus exercitationem.",
+      "published_at": "2018-01-25"
+    },
+    "links": {
+      "self": "https://sarala-demo.app/api/posts/1"
+    },
+    "relationships": {
+      "tags": {
+        "links": {
+          "self": "https://sarala-demo.app/api/posts/1/relationships/tags",
+          "related": "https://sarala-demo.app/api/posts/1/tags"
+        },
+        "data": [
+          {
+            "type": "tags",
+            "id": "1"
+          },
+          {
+            "type": "tags",
+            "id": "15"
+          }
+        ]
+      }
+    }
+  },
+  "included": [
+    {
+      "type": "tags",
+      "id": "1",
+      "attributes": {
+        "name": "voluptates"
+      },
+      "links": {
+        "self": "https://sarala-demo.app/api/tags/1"
+      }
+    },
+    {
+      "type": "tags",
+      "id": "15",
+      "attributes": {
+        "name": "dolorum"
+      },
+      "links": {
+        "self": "https://sarala-demo.app/api/tags/15"
+      }
+    }
+  ]
+};
 ```
 
 ## Simple object data sample
 
 ```javascript
-const simpleObject = [
-  {
-    "id": "1",
-    "type": "posts",
-    "slug": "sarala-json-api-data-formatter",
-    "title": "Sarala json-api data formatter",
-    "subtitle": "A fluent, framework-agnostic, JavaScript library, that can be used simply, to transform standard JSON API responses to simple JSON objects and vice versa.",
-    "published_at": "2018-01-21",
-    "relationships": [
-      "tags"
-    ],
-    "tags": [
+const simpleObject = {
+  "id": "1",
+  "type": "posts",
+  "links": {
+    "self": "https://sarala-demo.app/api/posts/1"
+  },
+  "slug": "voluptates-laborum-non-voluptatem-ducimus-veniam-et",
+  "title": "Voluptates laborum non voluptatem ducimus veniam et.",
+  "subtitle": "Cumque aut laudantium repudiandae rem repellendus voluptatem. Sunt ipsa eum ea molestias.",
+  "body": "Est quod itaque suscipit quidem dolor dolores velit. Nihil voluptas placeat ex consequatur quasi.\n\nEst nulla cupiditate ad beatae rerum veritatis vel. Quia ut doloribus consequatur porro. Eligendi sit et dignissimos qui voluptatem magnam mollitia labore.\n\nLibero saepe praesentium et sed. Exercitationem error rerum sit inventore provident laborum. Fuga pariatur dolor reiciendis. Quibusdam corrupti commodi ut quo non laboriosam quia. Nihil sit iste sit optio voluptas repellendus exercitationem.",
+  "published_at": "2018-01-25",
+  "relationships": [
+    "tags"
+  ],
+  "tags": {
+    "links": {
+      "self": "https://sarala-demo.app/api/posts/1/relationships/tags",
+      "related": "https://sarala-demo.app/api/posts/1/tags"
+    },
+    "data_collection": true,
+    "data": [
       {
         "id": "1",
         "type": "tags",
-        "name": "json-api"
+        "links": {
+          "self": "https://sarala-demo.app/api/tags/1"
+        },
+        "name": "voluptates"
       },
       {
-        "id": "2",
+        "id": "15",
         "type": "tags",
-        "name": "transform"
+        "links": {
+          "self": "https://sarala-demo.app/api/tags/15"
+        },
+        "name": "dolorum"
       }
     ]
   }
-];
+};
 ```
 
 ## Deserialize
@@ -138,3 +165,24 @@ let data = this.filterFields({
 ```
 
 ### The `serialize` method can be used similarly with `includeOnly` and `filterFields`.
+
+# For Devs 
+
+#### TDD with [jest](https://facebook.github.io/jest/)
+
+```bash
+# run test
+npm run t
+
+# run test with watch
+npm run tw
+
+# check code coverage
+npm run cc
+```
+
+#### Code linting with [ESLint](https://eslint.org/)
+
+```bash
+npm run cs
+```

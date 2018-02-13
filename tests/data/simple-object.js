@@ -82,3 +82,124 @@ export const PaginatedPostsList = {
         "last": "https:\/\/sarala-demo.app\/api\/posts?=3"
     }
 };
+
+export const PostWithAllNesterRelations = {
+    "id": "1",
+    "type": "posts",
+    "slug": "voluptates-laborum-non-voluptatem-ducimus-veniam-et",
+    "title": "Voluptates laborum non voluptatem ducimus veniam et.",
+    "subtitle": "Cumque aut laudantium repudiandae rem repellendus voluptatem. Sunt ipsa eum ea molestias.",
+    "body": "Est quod itaque suscipit quidem dolor dolores velit. Nihil voluptas placeat ex consequatur quasi.\n\nEst nulla cupiditate ad beatae rerum veritatis vel. Quia ut doloribus consequatur porro. Eligendi sit et dignissimos qui voluptatem magnam mollitia labore.\n\nLibero saepe praesentium et sed. Exercitationem error rerum sit inventore provident laborum. Fuga pariatur dolor reiciendis. Quibusdam corrupti commodi ut quo non laboriosam quia. Nihil sit iste sit optio voluptas repellendus exercitationem.",
+    "published_at": "2018-01-25",
+    "relationships": [
+        "author",
+        "tags",
+        "comments"
+    ],
+    "author": {
+        "data": {
+            "email": "margret06@example.com",
+            "id": "1",
+            "links": {
+                "self": "https://sarala-demo.app/api/users/1"
+            },
+            "name": "Heidi Hintz Jr.",
+            "type": "users"
+        },
+        "links": {
+            "related": "https://sarala-demo.app/api/posts/1/author",
+            "self": "https://sarala-demo.app/api/posts/1/relationships/author"
+        }
+    },
+    "comments": {
+        "data": [
+            {
+                "author": {
+                    "data": {
+                        "email": "reynold11@example.org",
+                        "id": "11",
+                        "links": {
+                            "self": "https://sarala-demo.app/api/users/11"
+                        },
+                        "name": "Abdullah Grant",
+                        "type": "users"
+                    },
+                    "links": {
+                        "related": "https://sarala-demo.app/api/comments/1/author",
+                        "self": "https://sarala-demo.app/api/comments/1/relationships/author"
+                    }
+                },
+                "body": "Nihil et quia tempora est quae nostrum velit ipsum. Nemo et aut maxime id.",
+                "created_at": "2018-02-10",
+                "id": "1",
+                "links": {
+                    "self": "https://sarala-demo.app/api/comments/1"
+                },
+                "relationships": [
+                    "author"
+                ],
+                "type": "comments"
+            },
+            {
+                "author": {
+                    "data": {
+                        "email": "manuela76@example.net",
+                        "id": "12",
+                        "links": {
+                            "self": "https://sarala-demo.app/api/users/12"
+                        },
+                        "name": "Mr. Nathanial Maggio",
+                        "type": "users"
+                    },
+                    "links": {
+                        "related": "https://sarala-demo.app/api/comments/2/author",
+                        "self": "https://sarala-demo.app/api/comments/2/relationships/author"
+                    }
+                },
+                "body": "Sint quaerat et ut delectus ratione id alias ab. Aut molestias ut dolores maiores ratione deserunt.",
+                "created_at": "2018-02-10",
+                "id": "2",
+                "links": {
+                    "self": "https://sarala-demo.app/api/comments/2"
+                },
+                "relationships": [
+                    "author"
+                ],
+                "type": "comments"
+            }
+        ],
+        "data_collection": true,
+        "links": {
+            "related": "https://sarala-demo.app/api/posts/1/comments",
+            "self": "https://sarala-demo.app/api/posts/1/relationships/comments"
+        }
+    },
+    "tags": {
+        "data": [
+            {
+                "id": "1",
+                "links": {
+                    "self": "https://sarala-demo.app/api/tags/1"
+                },
+                "name": "voluptates",
+                "type": "tags"
+            },
+            {
+                "id": "15",
+                "links": {
+                    "self": "https://sarala-demo.app/api/tags/15"
+                },
+                "name": "dolorum",
+                "type": "tags"
+            }
+        ],
+        "data_collection": true,
+        "links": {
+            "related": "https://sarala-demo.app/api/posts/1/tags",
+            "self": "https://sarala-demo.app/api/posts/1/relationships/tags"
+        }
+    },
+    "links": {
+        "self": "https://sarala-demo.app/api/posts/1"
+    }
+};
