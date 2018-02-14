@@ -1,235 +1,235 @@
-import _ from 'lodash'
+import _ from 'lodash';
 
 export default class Formatter {
     constructor () {
-        this.data = {}
-        this.includes = null
-        this.fields = null
-        this.includedData = []
+        this.data = {};
+        this.includes = null;
+        this.fields = null;
+        this.includedData = [];
     }
 
     includeOnly (includes = []) {
-        this.includes = includes
+        this.includes = includes;
 
-        return this
+        return this;
     }
 
     filterFields (fields = {}) {
-        this.fields = fields
+        this.fields = fields;
 
-        return this
+        return this;
     }
 
     shouldIncludeRelation (relation) {
         if (this.includes === null) {
-            return true
+            return true;
         }
 
-        return _.indexOf(this.includes, relation) > 0
+        return _.indexOf(this.includes, relation) > 0;
     }
 
     shouldIncludeField (relation, field) {
         if (this.fields === null) {
-            return true
+            return true;
         }
 
         if (!this.fields.hasOwnProperty(relation)) {
-            return true
+            return true;
         }
 
         if (_.indexOf(this.fields[relation], field) !== -1) {
-            return true
+            return true;
         }
 
-        return false
+        return false;
     }
 
     deserialize (data) {
-        this.data = data
+        this.data = data;
 
         if (_.isArray(data.data)) {
-            return this.deserializeCollection(data)
+            return this.deserializeCollection(data);
         }
 
-        return this.deserializeOne(data.data)
+        return this.deserializeOne(data.data);
     }
 
     deserializeOne (data) {
-        let formatted = {}
-        formatted.id = data.id
-        formatted.type = data.type
+        let formatted = {};
+        formatted.id = data.id;
+        formatted.type = data.type;
 
         if (data.links) {
-            formatted.links = data.links
+            formatted.links = data.links;
         }
 
         if (data.meta) {
-            formatted.meta = data.meta
+            formatted.meta = data.meta;
         }
 
-        let thiss = this
+        let thiss = this;
 
         _.forOwn(data.attributes, (value, key) => {
             if (thiss.shouldIncludeField(data.type, key)) {
-                formatted[key] = value
+                formatted[key] = value;
             }
-        })
+        });
 
         if (data.relationships) {
-            formatted.relationships = []
+            formatted.relationships = [];
 
             for (var key in data.relationships) {
                 if (this.shouldIncludeRelation(key)) {
-                    formatted.relationships.push(key)
-                    let relationship = this.mapAndKillProps(data.relationships[key], {}, ['links', 'meta']).to
+                    formatted.relationships.push(key);
+                    let relationship = this.mapAndKillProps(data.relationships[key], {}, ['links', 'meta']).to;
 
                     if (_.isArray(data.relationships[key].data)) {
-                        relationship.data_collection = true
-                        relationship.data = this.resolveRelationCollection(data.relationships[key].data)
+                        relationship.data_collection = true;
+                        relationship.data = this.resolveRelationCollection(data.relationships[key].data);
                     } else {
-                        relationship.data = this.resolveRelation(data.relationships[key].data)
+                        relationship.data = this.resolveRelation(data.relationships[key].data);
                     }
 
-                    formatted[key] = relationship
+                    formatted[key] = relationship;
                 }
             }
         }
 
-        return formatted
+        return formatted;
     }
 
     deserializeCollection (data) {
-        const thiss = this
-        data.data_collection = true
+        const thiss = this;
+        data.data_collection = true;
 
         data.data = _.map(data.data, item => {
-            return thiss.deserializeOne(item)
-        })
+            return thiss.deserializeOne(item);
+        });
 
-        return data
+        return data;
     }
 
     resolveRelation (data) {
-        return this.deserializeOne(_.find(this.data.included, data))
+        return this.deserializeOne(_.find(this.data.included, data));
     }
 
     resolveRelationCollection (relations) {
         return _.map(relations, relation => {
-            return this.resolveRelation(relation)
-        })
+            return this.resolveRelation(relation);
+        });
     }
 
     mapAndKillProps (from, to, props) {
         _.each(props, prop => {
             if (from.hasOwnProperty(prop)) {
-                to[prop] = from[prop]
-                delete from[prop]
+                to[prop] = from[prop];
+                delete from[prop];
             }
-        })
+        });
 
-        return { from, to }
+        return { from, to };
     }
 
     isSerializeableCollection (data) {
-        return data.hasOwnProperty('data_collection') && data.data_collection === true && _.isArray(data.data)
+        return data.hasOwnProperty('data_collection') && data.data_collection === true && _.isArray(data.data);
     }
 
     serialize (data) {
-        this.includedData = []
-        let serialized = {}
+        this.includedData = [];
+        let serialized = {};
 
         if (this.isSerializeableCollection(data)) {
-            serialized = this.serializeCollection(data)
+            serialized = this.serializeCollection(data);
         } else {
-            serialized.data = this.serializeOne(data)
+            serialized.data = this.serializeOne(data);
         }
 
         if (this.includedData.length) {
-            serialized.included = this.includedData
+            serialized.included = this.includedData;
         }
 
-        return serialized
+        return serialized;
     }
 
     serializeOne (data) {
         let serialized = {
             attributes: {},
             relationships: {}
-        }
+        };
 
-        const mapAndKilled = this.mapAndKillProps(data, serialized, ['id', 'type', 'links', 'meta'])
+        const mapAndKilled = this.mapAndKillProps(data, serialized, ['id', 'type', 'links', 'meta']);
 
-        data = mapAndKilled.from
-        serialized = mapAndKilled.to
+        data = mapAndKilled.from;
+        serialized = mapAndKilled.to;
 
-        let thiss = this
+        let thiss = this;
 
         if (data.hasOwnProperty('relationships')) {
             _.forEach(data.relationships, relationship => {
                 if (thiss.shouldIncludeRelation(relationship)) {
-                    let relationshipData = thiss.mapAndKillProps(data[relationship], {}, ['links', 'meta']).to
+                    let relationshipData = thiss.mapAndKillProps(data[relationship], {}, ['links', 'meta']).to;
 
                     if (thiss.isSerializeableCollection(data[relationship])) {
-                        relationshipData.data = thiss.serializeRelationshipCollection(data[relationship].data)
+                        relationshipData.data = thiss.serializeRelationshipCollection(data[relationship].data);
                     } else {
-                        relationshipData.data = thiss.serializeRelationship(data[relationship].data)
+                        relationshipData.data = thiss.serializeRelationship(data[relationship].data);
                     }
 
-                    serialized.relationships[relationship] = relationshipData
+                    serialized.relationships[relationship] = relationshipData;
                 }
 
-                delete data[relationship]
-            })
+                delete data[relationship];
+            });
 
-            delete data.relationships
+            delete data.relationships;
         }
 
         _.forOwn(data, (value, key) => {
             if (thiss.shouldIncludeField(serialized.type, key)) {
-                serialized.attributes[key] = value
+                serialized.attributes[key] = value;
             }
-        })
+        });
 
         if (_.isEmpty(serialized.relationships)) {
-            delete serialized.relationships
+            delete serialized.relationships;
         }
 
-        return serialized
+        return serialized;
     }
 
     serializeCollection (data) {
-        const mapAndKilled = this.mapAndKillProps(data, {}, ['links', 'meta'])
+        const mapAndKilled = this.mapAndKillProps(data, {}, ['links', 'meta']);
 
-        data = mapAndKilled.from
-        let serialized = mapAndKilled.to
+        data = mapAndKilled.from;
+        let serialized = mapAndKilled.to;
 
         serialized.data = _.map(data.data, item => {
-            return this.serializeOne(item)
-        })
+            return this.serializeOne(item);
+        });
 
-        return serialized
+        return serialized;
     }
 
     serializeRelationship (data) {
-        const serialized = this.serializeOne(data)
-        this.addToIncludes(serialized)
+        const serialized = this.serializeOne(data);
+        this.addToIncludes(serialized);
 
-        return { type: serialized.type, id: serialized.id }
+        return { type: serialized.type, id: serialized.id };
     }
 
     serializeRelationshipCollection (data) {
-        const thiss = this
+        const thiss = this;
 
         return _.map(data, item => {
-            return thiss.serializeRelationship(item)
-        })
+            return thiss.serializeRelationship(item);
+        });
     }
 
     addToIncludes (data) {
-        const thiss = this
+        const thiss = this;
 
         if (_.isUndefined(_.find(thiss.includedData, { id: data.id, type: data.type }))) {
-            this.includedData.push(data)
+            this.includedData.push(data);
         }
     }
 }
