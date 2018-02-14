@@ -1,5 +1,5 @@
 import Formatter from './Formatter'
 
 export {
-  Formatter
+    Formatter
 }
