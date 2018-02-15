@@ -1,4 +1,7 @@
 # sarala-json-api-data-formatter
+
+[![codecov](https://codecov.io/gh/milroyfraser/sarala-json-api-data-formatter/branch/master/graph/badge.svg)](https://codecov.io/gh/milroyfraser/sarala-json-api-data-formatter)
+
 > A fluent, framework-agnostic, JavaScript library, that can be used simply, to transform standard JSON API responses to simple JSON objects and vice versa.
 
 ## Install

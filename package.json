@@ -9,7 +9,12 @@
     "tw": "jest --watch",
     "cc": "jest --coverage",
     "cs": "./node_modules/.bin/eslint src/*",
-    "csf": "./node_modules/.bin/eslint src/* --fix"
+    "csf": "./node_modules/.bin/eslint src/* --fix",
+    "test": "jest --coverage & codecov -t 5d183834-4fff-4000-b25b-de4556f5ef91"
+  },
+  "jest": {
+    "coverageDirectory": "./coverage/",
+    "collectCoverage": true
   },
   "babel": {
     "presets": [
@@ -36,6 +41,7 @@
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-preset-latest": "^6.24.1",
+    "codecov": "^3.0.0",
     "eslint": "^4.17.0",
     "eslint-config-standard": "^11.0.0-beta.0",
     "eslint-plugin-import": "^2.8.0",
