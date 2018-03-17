@@ -5,7 +5,7 @@
   "main": "build/index.js",
   "scripts": {
     "build": "babel src -d build",
-    "t": "jest",
+    "t": "jest --coverage & codecov -t 5d183834-4fff-4000-b25b-de4556f5ef91",
     "tw": "jest --watch",
     "cc": "jest --coverage",
     "cs": "./node_modules/.bin/eslint src/*",
