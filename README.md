@@ -167,24 +167,25 @@ let data = this.filterFields({
 }).deserialize(data);
 ```
 
-### The `serialize` method can be used similarly with `includeOnly` and `filterFields`.
+> The `serialize` method can be used similarly with `includeOnly` and `filterFields`.
 
-# For Devs 
 
-#### TDD with [jest](https://facebook.github.io/jest/)
+#### Testing
 
 ```bash
-# run test
 npm run t
 
 # run test with watch
 npm run tw
+```
 
-# check code coverage
+### Code coverage
+
+```bash
 npm run cc
 ```
 
-#### Code linting with [ESLint](https://eslint.org/)
+#### Code Style
 
 ```bash
 npm run cs
