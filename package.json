@@ -5,12 +5,11 @@
   "main": "build/index.js",
   "scripts": {
     "build": "babel src -d build",
-    "t": "jest --coverage & codecov -t 5d183834-4fff-4000-b25b-de4556f5ef91",
+    "t": "jest",
     "tw": "jest --watch",
     "cc": "jest --coverage",
     "cs": "./node_modules/.bin/eslint src/*",
-    "csf": "./node_modules/.bin/eslint src/* --fix",
-    "test": "jest --coverage & codecov -t 5d183834-4fff-4000-b25b-de4556f5ef91"
+    "csf": "./node_modules/.bin/eslint src/* --fix"
   },
   "jest": {
     "coverageDirectory": "./coverage/",

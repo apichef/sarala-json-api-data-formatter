@@ -1,6 +1,8 @@
 # sarala-json-api-data-formatter
 
-[![codecov](https://codecov.io/gh/sarala-io/sarala-json-api-data-formatter/branch/master/graph/badge.svg)](https://codecov.io/gh/sarala-io/sarala-json-api-data-formatter) [![npm version](https://badge.fury.io/js/sarala-json-api-data-formatter.svg)](https://www.npmjs.com/package/sarala-json-api-data-formatter) [![apm](https://img.shields.io/apm/l/vim-mode.svg)](https://github.com/sarala-io/sarala-json-api-data-formatter/blob/master/LICENSE)
+[![codecov](https://codecov.io/gh/sarala-io/sarala-json-api-data-formatter/branch/master/graph/badge.svg)](https://codecov.io/gh/sarala-io/sarala-json-api-data-formatter) 
+[![npm version](https://badge.fury.io/js/sarala-json-api-data-formatter.svg)](https://www.npmjs.com/package/sarala-json-api-data-formatter) 
+[![apm](https://img.shields.io/apm/l/vim-mode.svg)](https://github.com/sarala-io/sarala-json-api-data-formatter/blob/master/LICENSE)
 
 > A fluent, framework-agnostic, JavaScript library, that can be used simply, to transform standard JSON API responses to simple JSON objects and vice versa.
 
