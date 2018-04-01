@@ -67,10 +67,8 @@ export default class Formatter {
             formatted.meta = data.meta;
         }
 
-        let thiss = this;
-
         _.forOwn(data.attributes, (value, key) => {
-            if (thiss.shouldIncludeField(data.type, key)) {
+            if (this.shouldIncludeField(data.type, key)) {
                 formatted[key] = value;
             }
         });
@@ -99,11 +97,10 @@ export default class Formatter {
     }
 
     deserializeCollection (data) {
-        const thiss = this;
         data.data_collection = true;
 
         data.data = _.map(data.data, item => {
-            return thiss.deserializeOne(item);
+            return this.deserializeOne(item);
         });
 
         return data;
@@ -162,17 +159,15 @@ export default class Formatter {
         data = mapAndKilled.from;
         serialized = mapAndKilled.to;
 
-        let thiss = this;
-
         if (data.hasOwnProperty('relationships')) {
             _.forEach(data.relationships, relationship => {
-                if (thiss.shouldIncludeRelation(relationship)) {
-                    let relationshipData = thiss.mapAndKillProps(data[relationship], {}, ['links', 'meta']).to;
+                if (this.shouldIncludeRelation(relationship)) {
+                    let relationshipData = this.mapAndKillProps(data[relationship], {}, ['links', 'meta']).to;
 
-                    if (thiss.isSerializeableCollection(data[relationship])) {
-                        relationshipData.data = thiss.serializeRelationshipCollection(data[relationship].data);
+                    if (this.isSerializeableCollection(data[relationship])) {
+                        relationshipData.data = this.serializeRelationshipCollection(data[relationship].data);
                     } else {
-                        relationshipData.data = thiss.serializeRelationship(data[relationship].data);
+                        relationshipData.data = this.serializeRelationship(data[relationship].data);
                     }
 
                     serialized.relationships[relationship] = relationshipData;
@@ -185,7 +180,7 @@ export default class Formatter {
         }
 
         _.forOwn(data, (value, key) => {
-            if (thiss.shouldIncludeField(serialized.type, key)) {
+            if (this.shouldIncludeField(serialized.type, key)) {
                 serialized.attributes[key] = value;
             }
         });
@@ -218,17 +213,13 @@ export default class Formatter {
     }
 
     serializeRelationshipCollection (data) {
-        const thiss = this;
-
         return _.map(data, item => {
-            return thiss.serializeRelationship(item);
+            return this.serializeRelationship(item);
         });
     }
 
     addToIncludes (data) {
-        const thiss = this;
-
-        if (_.isUndefined(_.find(thiss.includedData, { id: data.id, type: data.type }))) {
+        if (_.isUndefined(_.find(this.includedData, { id: data.id, type: data.type }))) {
             this.includedData.push(data);
         }
     }
