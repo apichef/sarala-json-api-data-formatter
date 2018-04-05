@@ -84,7 +84,7 @@ export default class Formatter {
                     if (_.isArray(data.relationships[key].data)) {
                         relationship.data_collection = true;
                         relationship.data = this.resolveRelationCollection(data.relationships[key].data);
-                    } else {
+                    } else if (data.relationships[key].data) {
                         relationship.data = this.resolveRelation(data.relationships[key].data);
                     }
 
