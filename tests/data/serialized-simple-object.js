@@ -10,7 +10,7 @@ export const Post = {
             "published_at": "2018-01-25"
         }
     }
-};
+}
 
 export const PaginatedPostsList = {
     "data": [
@@ -86,4 +86,4 @@ export const PaginatedPostsList = {
         "next": "https:\/\/sarala-demo.app\/api\/posts?=2",
         "last": "https:\/\/sarala-demo.app\/api\/posts?=3"
     }
-};
+}

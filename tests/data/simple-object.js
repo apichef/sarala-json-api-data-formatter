@@ -12,7 +12,7 @@ export const Post = {
     "meta": {
         "copyright": "Copyright 2018 Example Corp."
     }
-};
+}
 
 export const PaginatedPostsList = {
     "data_collection": true,
@@ -81,7 +81,7 @@ export const PaginatedPostsList = {
         "next": "https:\/\/sarala-demo.app\/api\/posts?=2",
         "last": "https:\/\/sarala-demo.app\/api\/posts?=3"
     }
-};
+}
 
 export const PostWithAllNesterRelations = {
     "id": "1",
@@ -202,7 +202,7 @@ export const PostWithAllNesterRelations = {
     "links": {
         "self": "https://sarala-demo.app/api/posts/1"
     }
-};
+}
 
 export const PostWithRelationalLinks = {
     "id": "1",
@@ -231,4 +231,4 @@ export const PostWithRelationalLinks = {
     "links": {
         "self": "https://sarala-demo.app/api/posts/1"
     }
-};
+}
