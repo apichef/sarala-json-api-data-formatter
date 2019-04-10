@@ -55,6 +55,10 @@ export default class Formatter {
     }
 
     deserializeOne (data) {
+        if(typeof data === 'undefined') {
+            return 'undefined';
+        }
+        
         let formatted = {}
         formatted.id = data.id
         formatted.type = data.type
