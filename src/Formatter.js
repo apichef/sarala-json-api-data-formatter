@@ -1,4 +1,14 @@
-import _ from 'lodash'
+import {
+    each,
+    find,
+    forEach,
+    forOwn,
+    indexOf,
+    isEmpty,
+    isUndefined,
+    isArray,
+    map
+} from 'lodash'
 
 export default class Formatter {
     constructor () {
@@ -25,7 +35,7 @@ export default class Formatter {
             return true
         }
 
-        return _.indexOf(this.includes, relation) > 0
+        return indexOf(this.includes, relation) > 0
     }
 
     shouldIncludeField (relation, field) {
@@ -33,11 +43,11 @@ export default class Formatter {
             return true
         }
 
-        if (!this.fields.hasOwnProperty(relation)) {
+        if (!Object.prototype.hasOwnProperty.call(this.fields, relation)) {
             return true
         }
 
-        if (_.indexOf(this.fields[relation], field) !== -1) {
+        if (indexOf(this.fields[relation], field) !== -1) {
             return true
         }
 
@@ -47,7 +57,7 @@ export default class Formatter {
     deserialize (data) {
         this.data = data
 
-        if (_.isArray(data.data)) {
+        if (isArray(data.data)) {
             return this.deserializeCollection(data)
         }
 
@@ -55,7 +65,7 @@ export default class Formatter {
     }
 
     deserializeOne (data) {
-        let formatted = {}
+        const formatted = {}
         formatted.id = data.id
         formatted.type = data.type
 
@@ -67,7 +77,7 @@ export default class Formatter {
             formatted.meta = data.meta
         }
 
-        _.forOwn(data.attributes, (value, key) => {
+        forOwn(data.attributes, (value, key) => {
             if (this.shouldIncludeField(data.type, key)) {
                 formatted[key] = value
             }
@@ -76,12 +86,12 @@ export default class Formatter {
         if (data.relationships) {
             formatted.relationships = []
 
-            for (var key in data.relationships) {
+            for (const key in data.relationships) {
                 if (this.shouldIncludeRelation(key)) {
                     formatted.relationships.push(key)
-                    let relationship = this.mapAndKillProps(data.relationships[key], {}, ['links', 'meta']).to
+                    const relationship = this.mapAndKillProps(data.relationships[key], {}, ['links', 'meta']).to
 
-                    if (_.isArray(data.relationships[key].data)) {
+                    if (isArray(data.relationships[key].data)) {
                         relationship.data_collection = true
                         relationship.data = this.resolveRelationCollection(data.relationships[key].data)
                     } else if (data.relationships[key].data) {
@@ -99,7 +109,7 @@ export default class Formatter {
     deserializeCollection (data) {
         data.data_collection = true
 
-        data.data = _.map(data.data, item => {
+        data.data = map(data.data, item => {
             return this.deserializeOne(item)
         })
 
@@ -107,18 +117,18 @@ export default class Formatter {
     }
 
     resolveRelation (data) {
-        return this.deserializeOne(_.find(this.data.included, data))
+        return this.deserializeOne(find(this.data.included, data))
     }
 
     resolveRelationCollection (relations) {
-        return _.map(relations, relation => {
+        return map(relations, relation => {
             return this.resolveRelation(relation)
         })
     }
 
     mapAndKillProps (from, to, props) {
-        _.each(props, prop => {
-            if (from.hasOwnProperty(prop)) {
+        each(props, prop => {
+            if (Object.prototype.hasOwnProperty.call(from, prop)) {
                 to[prop] = from[prop]
                 delete from[prop]
             }
@@ -128,7 +138,7 @@ export default class Formatter {
     }
 
     isSerializeableCollection (data) {
-        return data.hasOwnProperty('data_collection') && data.data_collection === true && _.isArray(data.data)
+        return Object.prototype.hasOwnProperty.call(data, 'data_collection') && data.data_collection === true && isArray(data.data)
     }
 
     serialize (data) {
@@ -159,10 +169,10 @@ export default class Formatter {
         data = mapAndKilled.from
         serialized = mapAndKilled.to
 
-        if (data.hasOwnProperty('relationships')) {
-            _.forEach(data.relationships, relationship => {
+        if (Object.prototype.hasOwnProperty.call(data, 'relationships')) {
+            forEach(data.relationships, relationship => {
                 if (this.shouldIncludeRelation(relationship)) {
-                    let relationshipData = this.mapAndKillProps(data[relationship], {}, ['links', 'meta']).to
+                    const relationshipData = this.mapAndKillProps(data[relationship], {}, ['links', 'meta']).to
 
                     if (this.isSerializeableCollection(data[relationship])) {
                         relationshipData.data = this.serializeRelationshipCollection(data[relationship].data)
@@ -179,13 +189,13 @@ export default class Formatter {
             delete data.relationships
         }
 
-        _.forOwn(data, (value, key) => {
+        forOwn(data, (value, key) => {
             if (this.shouldIncludeField(serialized.type, key)) {
                 serialized.attributes[key] = value
             }
         })
 
-        if (_.isEmpty(serialized.relationships)) {
+        if (isEmpty(serialized.relationships)) {
             delete serialized.relationships
         }
 
@@ -196,9 +206,9 @@ export default class Formatter {
         const mapAndKilled = this.mapAndKillProps(data, {}, ['links', 'meta'])
 
         data = mapAndKilled.from
-        let serialized = mapAndKilled.to
+        const serialized = mapAndKilled.to
 
-        serialized.data = _.map(data.data, item => {
+        serialized.data = map(data.data, item => {
             return this.serializeOne(item)
         })
 
@@ -213,13 +223,13 @@ export default class Formatter {
     }
 
     serializeRelationshipCollection (data) {
-        return _.map(data, item => {
+        return map(data, item => {
             return this.serializeRelationship(item)
         })
     }
 
     addToIncludes (data) {
-        if (_.isUndefined(_.find(this.includedData, { id: data.id, type: data.type }))) {
+        if (isUndefined(find(this.includedData, { id: data.id, type: data.type }))) {
             this.includedData.push(data)
         }
     }
