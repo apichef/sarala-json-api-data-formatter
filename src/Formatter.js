@@ -35,7 +35,7 @@ export default class Formatter {
             return true
         }
 
-        return indexOf(this.includes, relation) > 0
+        return indexOf(this.includes, relation) !== -1
     }
 
     shouldIncludeField (relation, field) {
@@ -92,10 +92,9 @@ export default class Formatter {
                     const relationship = this.mapAndKillProps(data.relationships[key], {}, ['links', 'meta']).to
 
                     if (isArray(data.relationships[key].data)) {
-                        relationship.data_collection = true
-                        relationship.data = this.resolveRelationCollection(data.relationships[key].data)
-                    } else if (data.relationships[key].data) {
-                        relationship.data = this.resolveRelation(data.relationships[key].data)
+                        relationship.data = data.relationships[key].data ? this.resolveRelationCollection(data.relationships[key].data) : []
+                    } else {
+                        relationship.data = data.relationships[key].data ? this.resolveRelation(data.relationships[key].data) : null
                     }
 
                     formatted[key] = relationship
@@ -107,8 +106,6 @@ export default class Formatter {
     }
 
     deserializeCollection (data) {
-        data.data_collection = true
-
         data.data = map(data.data, item => {
             return this.deserializeOne(item)
         })
@@ -138,12 +135,16 @@ export default class Formatter {
     }
 
     isSerializeableCollection (data) {
-        return Object.prototype.hasOwnProperty.call(data, 'data_collection') && data.data_collection === true && isArray(data.data)
+        return Object.prototype.hasOwnProperty.call(data, 'data') && isArray(data.data)
     }
 
     serialize (data) {
         this.includedData = []
         let serialized = {}
+
+        if (Object.prototype.hasOwnProperty.call(data, 'relationships')) {
+            serialized.included = []
+        }
 
         if (this.isSerializeableCollection(data)) {
             serialized = this.serializeCollection(data)
@@ -177,7 +178,7 @@ export default class Formatter {
                     if (this.isSerializeableCollection(data[relationship])) {
                         relationshipData.data = this.serializeRelationshipCollection(data[relationship].data)
                     } else {
-                        relationshipData.data = this.serializeRelationship(data[relationship].data)
+                        relationshipData.data = data[relationship].data === null ? null : this.serializeRelationship(data[relationship].data)
                     }
 
                     serialized.relationships[relationship] = relationshipData

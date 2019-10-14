@@ -15,7 +15,6 @@ export const Post = {
 }
 
 export const PaginatedPostsList = {
-    "data_collection": true,
     "data": [
         {
             "id": "1",
@@ -168,7 +167,6 @@ export const PostWithAllNesterRelations = {
                 "type": "comments"
             }
         ],
-        "data_collection": true,
         "links": {
             "related": "https://sarala-demo.app/api/posts/1/comments",
             "self": "https://sarala-demo.app/api/posts/1/relationships/comments"
@@ -193,7 +191,76 @@ export const PostWithAllNesterRelations = {
                 "type": "tags"
             }
         ],
-        "data_collection": true,
+        "links": {
+            "related": "https://sarala-demo.app/api/posts/1/tags",
+            "self": "https://sarala-demo.app/api/posts/1/relationships/tags"
+        }
+    },
+    "links": {
+        "self": "https://sarala-demo.app/api/posts/1"
+    }
+}
+
+export const PostWithAuthor = {
+    "id": "1",
+    "type": "posts",
+    "slug": "voluptates-laborum-non-voluptatem-ducimus-veniam-et",
+    "title": "Voluptates laborum non voluptatem ducimus veniam et.",
+    "subtitle": "Cumque aut laudantium repudiandae rem repellendus voluptatem. Sunt ipsa eum ea molestias.",
+    "body": "Est quod itaque suscipit quidem dolor dolores velit. Nihil voluptas placeat ex consequatur quasi.\n\nEst nulla cupiditate ad beatae rerum veritatis vel. Quia ut doloribus consequatur porro. Eligendi sit et dignissimos qui voluptatem magnam mollitia labore.\n\nLibero saepe praesentium et sed. Exercitationem error rerum sit inventore provident laborum. Fuga pariatur dolor reiciendis. Quibusdam corrupti commodi ut quo non laboriosam quia. Nihil sit iste sit optio voluptas repellendus exercitationem.",
+    "published_at": "2018-01-25",
+    "relationships": [
+        "author"
+    ],
+    "author": {
+        "data": {
+            "email": "margret06@example.com",
+            "id": "1",
+            "links": {
+                "self": "https://sarala-demo.app/api/users/1"
+            },
+            "name": "Heidi Hintz Jr.",
+            "type": "users"
+        },
+        "links": {
+            "related": "https://sarala-demo.app/api/posts/1/author",
+            "self": "https://sarala-demo.app/api/posts/1/relationships/author"
+        }
+    },
+    "links": {
+        "self": "https://sarala-demo.app/api/posts/1"
+    }
+}
+
+export const PostWithAllEmptyNesterRelations = {
+    "id": "1",
+    "type": "posts",
+    "slug": "voluptates-laborum-non-voluptatem-ducimus-veniam-et",
+    "title": "Voluptates laborum non voluptatem ducimus veniam et.",
+    "subtitle": "Cumque aut laudantium repudiandae rem repellendus voluptatem. Sunt ipsa eum ea molestias.",
+    "body": "Est quod itaque suscipit quidem dolor dolores velit. Nihil voluptas placeat ex consequatur quasi.\n\nEst nulla cupiditate ad beatae rerum veritatis vel. Quia ut doloribus consequatur porro. Eligendi sit et dignissimos qui voluptatem magnam mollitia labore.\n\nLibero saepe praesentium et sed. Exercitationem error rerum sit inventore provident laborum. Fuga pariatur dolor reiciendis. Quibusdam corrupti commodi ut quo non laboriosam quia. Nihil sit iste sit optio voluptas repellendus exercitationem.",
+    "published_at": "2018-01-25",
+    "relationships": [
+        "author",
+        "tags",
+        "comments"
+    ],
+    "author": {
+        "data": null,
+        "links": {
+            "related": "https://sarala-demo.app/api/posts/1/author",
+            "self": "https://sarala-demo.app/api/posts/1/relationships/author"
+        }
+    },
+    "comments": {
+        "data": [],
+        "links": {
+            "related": "https://sarala-demo.app/api/posts/1/comments",
+            "self": "https://sarala-demo.app/api/posts/1/relationships/comments"
+        }
+    },
+    "tags": {
+        "data": [],
         "links": {
             "related": "https://sarala-demo.app/api/posts/1/tags",
             "self": "https://sarala-demo.app/api/posts/1/relationships/tags"
