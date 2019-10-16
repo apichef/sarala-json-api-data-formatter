@@ -1,4 +1,5 @@
 import Formatter from './../src/Formatter'
+import { clone } from './util'
 
 import {
     Post as ApiPost,
@@ -22,29 +23,29 @@ beforeEach(() => {
 })
 
 test('it serialize single object', () => {
-    const result = formatter.serialize(SimplePost)
+    const result = formatter.serialize(clone(SimplePost))
     expect(result).toEqual(ApiPost)
 })
 
 test('it serialize single object with relationships', () => {
-    const result = formatter.serialize(SimplePostWithAllNesterRelations)
+    const result = formatter.serialize(clone(SimplePostWithAllNesterRelations))
     expect(result.data).toEqual(ApiPostWithAllNesterRelations.data)
     expect(result.included.length).toEqual(ApiPostWithAllNesterRelations.included.length)
 })
 
 test('it serialize single object with empty relationships', () => {
-    const result = formatter.serialize(SimplePostWithAllEmptyNesterRelations)
+    const result = formatter.serialize(clone(SimplePostWithAllEmptyNesterRelations))
     expect(result.data).toEqual(ApiPostWithAllEmptyNesterRelations.data)
     expect(result.included).toEqual(ApiPostWithAllEmptyNesterRelations.included)
 })
 
 test('it can specify relations', () => {
-    const result = formatter.includeOnly(['author']).serialize(SimplePostWithAllNesterRelations)
+    const result = formatter.includeOnly(['author']).serialize(clone(SimplePostWithAllNesterRelations))
     expect(result.data).toEqual(ApiPostWithAuthor.data)
     expect(result.included).toEqual(ApiPostWithAuthor.included)
 })
 
 test('it serialize collection of objects', () => {
-    const result = formatter.serialize(SimplePaginatedPostsList)
+    const result = formatter.serialize(clone(SimplePaginatedPostsList))
     expect(result).toEqual(ApiPaginatedPostsList)
 })

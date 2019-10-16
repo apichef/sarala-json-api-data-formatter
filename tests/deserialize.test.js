@@ -1,4 +1,5 @@
 import Formatter from './../src/Formatter'
+import { clone } from './util'
 
 import {
     Post as ApiPost,
@@ -25,31 +26,31 @@ beforeEach(() => {
 })
 
 test('it deserialize single object', () => {
-    const result = formatter.deserialize(ApiPost)
+    const result = formatter.deserialize(clone(ApiPost))
     expect(result).toEqual(SimplePost)
 })
 
 test('it deserialize related resource object when the data is not present', () => {
-    const result = formatter.deserialize(ApiPostWithRelationalLinks)
+    const result = formatter.deserialize(clone(ApiPostWithRelationalLinks))
     expect(result).toEqual(SimplePostWithRelationalLinks)
 })
 
 test('it deserialize single object with relationships', () => {
-    const result = formatter.deserialize(ApiPostWithAllNesterRelations)
+    const result = formatter.deserialize(clone(ApiPostWithAllNesterRelations))
     expect(result).toEqual(SimplePostWithAllNesterRelations)
 })
 
 test('it deserialize single object with empty relationships', () => {
-    const result = formatter.deserialize(ApiPostWithAllEmptyNesterRelations)
+    const result = formatter.deserialize(clone(ApiPostWithAllEmptyNesterRelations))
     expect(result).toEqual(SimplePostWithAllEmptyNesterRelations)
 })
 
 test('it can specify relations', () => {
-    const result = formatter.includeOnly(['author']).deserialize(ApiPostWithAuthor)
+    const result = formatter.includeOnly(['author']).deserialize(clone(ApiPostWithAuthor))
     expect(result).toEqual(SimplePostWithAuthor)
 })
 
 test('it deserialize collection of objects', () => {
-    const result = formatter.deserialize(ApiPaginatedPostsList)
+    const result = formatter.deserialize(clone(ApiPaginatedPostsList))
     expect(result).toEqual(SimplePaginatedPostsList)
 })

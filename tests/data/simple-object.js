@@ -284,12 +284,14 @@ export const PostWithRelationalLinks = {
         "tags"
     ],
     "author": {
+        "data": null,
         "links": {
             "related": "https://sarala-demo.app/api/posts/1/author",
             "self": "https://sarala-demo.app/api/posts/1/relationships/author"
         }
     },
     "tags": {
+        "data": [],
         "links": {
             "related": "https://sarala-demo.app/api/posts/1/tags",
             "self": "https://sarala-demo.app/api/posts/1/relationships/tags"
